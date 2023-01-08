@@ -133,18 +133,33 @@ const watchList = [
 	},
 ];
 
-function getRating(watchList) {
+// function getRating(watchList) {
+//   // Add your code below this line
+//   const averageRating =
+//     watchList
+//       // Use filter to find films directed by Christopher Nolan
+//       .filter((film) => film.Director === "Christopher Nolan")
+//       // Use map to convert their ratings from strings to numbers
+//       .map((film) => Number(film.imdbRating))
+//       // Use reduce to add together their ratings
+//       .reduce((sumOfRatings, rating) => sumOfRatings + rating) /
+//     // Divide by the number of Nolan films to get the average rating
+//     watchList.filter((film) => film.Director === "Christopher Nolan").length;
+//   // Add your code above this line
+//   return averageRating;
+// }
+
+const sum = (a, b) => a + b
+
+function getRatingJake(watchList) {
 	// Add your code below this line
-	const averageRating =
-		watchList
-			// Use filter to find films directed by Christopher Nolan
-			.filter((film) => film.Director === "Christopher Nolan")
-			// Use map to convert their ratings from strings to numbers
-			.map((film) => Number(film.imdbRating))
-			// Use reduce to add together their ratings
-			.reduce((sumOfRatings, rating) => sumOfRatings + rating) /
-		// Divide by the number of Nolan films to get the average rating
-		watchList.filter((film) => film.Director === "Christopher Nolan").length;
+	const christopherNolanFilms = watchList.filter((film) => film.Director === "Christopher Nolan")
+
+	const ratingTotal = christopherNolanFilms
+		.map((film) => Number(film.imdbRating))
+		.reduce(sum)
+
+	const averageRating = ratingTotal / christopherNolanFilms.length;
 	// Add your code above this line
 	return averageRating;
 }
@@ -158,11 +173,20 @@ console.log(getRating(watchList));
 
 // Only change code below this line
 
-const ratings = [];
+// const ratings = [];
 
-watchList.map((w) =>
-	ratings.push({ title: w["Title"], rating: w["imdbRating"] })
-);
+// watchList.map((w) =>
+//   ratings.push({ title: w["Title"], rating: w["imdbRating"] })
+// );
+
+const toRating = (data) => {
+	return {
+		title: data.Title,
+		rating: data.imdbRating
+	}
+}
+
+const ratings = watchList.map(toRating);
 
 // Only change code above this line
 
@@ -175,12 +199,16 @@ console.log(JSON.stringify(ratings));
 
 // Only change code below this line
 
-const filteredList = [];
+// const filteredList = [];
 
-const bestMovies = watchList.filter((m) => m.imdbRating >= 8);
-bestMovies.map((movie) => {
-	filteredList.push({ title: movie.Title, rating: movie.imdbRating });
-});
+// const bestMovies = watchList.filter((m) => m.imdbRating >= 8);
+// bestMovies.map((movie) => {
+//   filteredList.push({ title: movie.Title, rating: movie.imdbRating });
+// });
+
+const filteredList = watchList
+	.filter((m) => m.imdbRating >= 8)
+	.map(toRating);
 
 // Only change code above this line
 
@@ -198,10 +226,21 @@ checkPositive([1, 2, 3, -4, 5]);
 
 //! /////////////////////////////////////////////////////////////
 
+// const squareList = (arr) => {
+//   // Only change code below this line
+//   const sqrArr = [];
+//   arr.map((a) => a % 1 === 0 && a > 0 && sqrArr.push(a * a));
+//   return sqrArr;
+//   // Only change code above this line
+// };
+
+const isPositiveInteger = (a) => a % 1 === 0 && a > 0
+
 const squareList = (arr) => {
 	// Only change code below this line
-	const sqrArr = [];
-	arr.map((a) => a % 1 === 0 && a > 0 && sqrArr.push(a * a));
+	const sqrArr = arr
+		.filter(isPositiveInteger)
+		.map(a => a * a);
 	return sqrArr;
 	// Only change code above this line
 };
@@ -211,6 +250,9 @@ console.log(squaredIntegers);
 
 //! /////////////////////////////////////////////////////////////
 
+class Sav {
+	constructor()
+}
 // tabs is an array of titles of each site open within the window
 const Window = function (tabs) {
 	this.tabs = tabs; // We keep a record of the array inside the object
@@ -300,8 +342,8 @@ console.log(tea4GreenTeamFCC, tea4BlackTeamFCC);
 
 function splitify(str) {
 	// Only change code below this line
-	const strArr = str.split(/\W/);
-	return strArr;
+	const words = str.split(/\W/);
+	return words;
 	// Only change code above this line
 }
 
@@ -311,12 +353,13 @@ console.log(splitify("Hello World,I-am code"));
 
 function alphabeticalOrder(arr) {
 	// Only change code below this line
-	const sortArr = arr.sort();
-	return sortArr;
+	return [...arr].sort();
 	// Only change code above this line
 }
 
-alphabeticalOrder(["a", "d", "c", "a", "z", "g"]);
+const myArr = ["a", "d", "c", "a", "z", "g"]
+alphabeticalOrder(myArr);
+// myArr is now different
 
 //! /////////////////////////////////////////////////////////////
 
@@ -366,25 +409,35 @@ const bookList = [
 	"Disquisitiones Arithmeticae",
 ];
 
-// Change code below this line
-function add(barr, bookName) {
-	const arr = [...barr];
-	arr.push(bookName);
-	return arr;
+// // Change code below this line
+// function add(barr, bookName) {
+//   const arr = [...barr];
+//   arr.push(bookName);
+//   return arr;
 
+//   // Change code above this line
+// }
+
+// Change code below this line
+function add(books, bookName) {
+	return books.concat(bookName)
 	// Change code above this line
 }
 
 // Change code below this line
-function remove(barr, bookName) {
-	const arr = [...barr];
-	const book_index = arr.indexOf(bookName);
-	if (book_index >= 0) {
-		arr.splice(book_index, 1);
-		return arr;
+// function remove(barr, bookName) {
+//   const arr = [...barr];
+//   const book_index = arr.indexOf(bookName);
+//   if (book_index >= 0) {
+//     arr.splice(book_index, 1);
+//     return arr;
 
-		// Change code above this line
-	}
+//     // Change code above this line
+//   }
+// }
+// Change code below this line
+function remove(books, bookToRemove) {
+	return books.filter(book => book !== bookToRemove)
 }
 console.log(bookList);
 
@@ -431,15 +484,17 @@ const tea4TeamFCC = getTea(40);
 //! ///////////////////////////////////////
 //? //////////////////////////////////////
 
-function add(x) {
-	// Only change code below this line
-	return function addy(y) {
-		return function addz(z) {
-			return x + y + z;
-		};
-	};
-	// Only change code above this line
-}
+// function add(x) {
+//   // Only change code below this line
+//   return function addy(y) {
+//     return function addz(z) {
+//       return x + y + z;
+//     };
+//   };
+//   // Only change code above this line
+// }
+
+const add = x => y => z => x + y + z
 
 add(10)(20)(30);
 
@@ -449,12 +504,12 @@ add(10)(20)(30);
 //! ///////////////////////////////////////////////////
 //? //////////////////////////////////////////////////
 
-Array.prototype.myFilter = function (callback) {
+Array.prototype.myFilter = function (callback, arr) {
 	const newArray = [];
 	// Only change code below this line
-	for (let i = 0; i < this.length; i++) {
-		if (Boolean(callback(this[i], i, this)) === true) {
-			newArray.push(this[i]);
+	for (let i = 0; i < arr.length; i++) {
+		if (Boolean(callback(arr[i], i, arr)) === true) {
+			newArray.push(arr[i]);
 		}
 	}
 	// Only change code above this line
@@ -493,8 +548,7 @@ nonMutatingConcat(first, second);
 
 function sentensify(str) {
 	// Only change code below this line
-	const arr = str.split(/\W/);
-	return arr.join(" ");
+	return str.split(/\W/).join(" ");
 	// Only change code above this line
 }
 
