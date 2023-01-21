@@ -64,3 +64,44 @@ checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUAR
  checkCashRegister(19.5, 20, [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]])
  should return {status: "CLOSED", change: [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]}.
 */
+
+function checkCashRegister(price, cash, cid) {
+	const denoms = [0.01, 0.05, 0.1, 0.25, 1, 5, 10, 20, 100];
+	const result = { status: "", change: [] };
+	const drawer = cid.map((x, i) => ({
+		name: x[0],
+		value: denoms[i],
+		amount: x[1],
+	}));
+	let change = cash - price;
+	for (let i = drawer.length - 1; i >= 0; i--) {
+		let { name, value, amount } = drawer[i];
+
+		if (change === 0) result.status = "Open";
+
+		if (change >= value) {
+			let currArr = [name, 0];
+
+			while (change >= value && amount > 0) {
+				currArr[1] = currArr[1] + value;
+				amount = amount - value;
+				change = change - value;
+			}
+
+			result.change.push(currArr);
+		}
+	}
+	return change;
+}
+
+checkCashRegister(19.5, 21.75, [
+	["PENNY", 1.01],
+	["NICKEL", 2.05],
+	["DIME", 3.1],
+	["QUARTER", 1],
+	["ONE", 1],
+	["FIVE", 55],
+	["TEN", 20],
+	["TWENTY", 60],
+	["ONE HUNDRED", 100],
+]);
